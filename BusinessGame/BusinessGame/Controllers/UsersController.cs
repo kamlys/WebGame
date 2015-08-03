@@ -61,6 +61,7 @@ namespace BusinessGame.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(BusinessGame.ViewModels.User.LoginViewModel model, string returnUrl)
         {
+
             if (ModelState.IsValid)
             {
                 if (db.Users.Any(u => u.Login == model.Login))
@@ -68,6 +69,8 @@ namespace BusinessGame.Controllers
                     var user = db.Users.First(u => u.Login == model.Login);
                     if (Crypto.VerifyHashedPassword(user.Password, model.Password))
                     {
+                        FormsAuthentication.SetAuthCookie(model.Login, true);
+
                             return RedirectToAction("Index", "Home");
                     }
                     else
