@@ -14,7 +14,8 @@ namespace BusinessGame.Models
             UserProducts = new HashSet<UserProducts>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         [Required]
