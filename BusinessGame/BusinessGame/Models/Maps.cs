@@ -8,14 +8,14 @@ namespace BusinessGame.Models
 
     public partial class Maps
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ID { get; set; }
+        [Key]
+        public int Map_ID { get; set; }
 
         public int User_ID { get; set; }
 
-        public int Width { get; set; }
-
         public int Height { get; set; }
+
+        public int Width { get; set; }
 
         public virtual Users Users { get; set; }
     }

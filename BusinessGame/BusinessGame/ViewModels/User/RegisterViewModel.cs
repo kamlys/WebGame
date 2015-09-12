@@ -28,6 +28,6 @@ namespace BusinessGame.ViewModels.User
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public DateTime Registration_date { get; set; }
+        public DateTime Registration_Date { get; set; }
     }
 }

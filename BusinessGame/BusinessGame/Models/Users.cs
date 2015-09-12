@@ -8,11 +8,11 @@ namespace BusinessGame.Models
 
     public partial class Users
     {
-        public Users()
-        {
-            UserBuildings = new HashSet<UserBuildings>();
-            UserProducts = new HashSet<UserProducts>();
-        }
+        //public Users()
+        //{
+        //    UserBuildings = new HashSet<UserBuildings>();
+        //    UserProducts = new HashSet<UserProducts>();
+        //}
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,13 +31,13 @@ namespace BusinessGame.Models
 
         public DateTime Last_log { get; set; }
 
-        public DateTime Registration_date { get; set; }
+        public DateTime Registration_Date { get; set; }
 
         public virtual Admins Admins { get; set; }
 
         public virtual Bans Bans { get; set; }
 
-        public virtual Maps Maps { get; set; }
+        public virtual ICollection<Maps> Maps { get; set; }
 
         public virtual ICollection<UserBuildings> UserBuildings { get; set; }
 

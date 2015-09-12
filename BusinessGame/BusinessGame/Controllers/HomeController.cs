@@ -13,7 +13,7 @@ namespace BusinessGame.Controllers
         {
             game_BusinessDb db = new game_BusinessDb();
 
-            ViewBag.user = db.Products.First();
+            //ViewBag.user = db.Products.First();
 
             return View();
         }

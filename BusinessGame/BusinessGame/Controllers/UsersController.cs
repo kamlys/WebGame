@@ -32,11 +32,30 @@ namespace BusinessGame.Controllers
                         Login = model.Login,
                         Email = model.Email,
                         Password = Crypto.HashPassword(model.Password),
-                        Registration_date = DateTime.Now,
+                        Registration_Date = DateTime.Now,
                         Last_log = DateTime.Now
                     };
+
+                    
+                    
                     db.Users.Add(user);
                     db.SaveChanges();
+
+
+
+                    int uID = db.Users.Max(u => u.ID);
+
+                    var map = new Maps()
+                    {
+                        User_ID = uID,
+                        Height = 10,
+                        Width = 10
+                    };
+
+                    db.Maps.Add(map);
+                    db.SaveChanges();
+
+
                     return RedirectToAction("Index", "Home");
                 }
             }

@@ -45,20 +45,22 @@ namespace BusinessGame.Models
                 .WithRequired(e => e.Users);
 
             modelBuilder.Entity<Users>()
-                .HasOptional(e => e.Maps)
-                .WithRequired(e => e.Users);
-
-            modelBuilder.Entity<Users>()
-                .HasMany(e => e.UserBuildings)
+                .HasMany(e => e.Maps)
                 .WithRequired(e => e.Users)
                 .HasForeignKey(e => e.User_ID)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Users>()
-                .HasMany(e => e.UserProducts)
-                .WithRequired(e => e.Users)
-                .HasForeignKey(e => e.User_ID)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Users>()
+            //    .HasMany(e => e.UserBuildings)
+            //    .WithRequired(e => e.Users)
+            //    .HasForeignKey(e => e.User_ID)
+            //    .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Users>()
+            //    .HasMany(e => e.UserProducts)
+            //    .WithRequired(e => e.Users)
+            //    .HasForeignKey(e => e.User_ID)
+            //    .WillCascadeOnDelete(false);
         }
     }
 }
