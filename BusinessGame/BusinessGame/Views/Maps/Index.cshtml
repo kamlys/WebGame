@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BusinessGame.Models.Maps>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Height)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Width)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Users.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Height)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Width)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Map_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Map_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Map_ID })
+        </td>
+    </tr>
+}
+
+</table>
