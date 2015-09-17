@@ -11,19 +11,31 @@ namespace BusinessGame.Controllers
     {
         public ActionResult Index()
         {
-            game_BusinessDb db = new game_BusinessDb();
-
-            //ViewBag.user = db.Products.First();
-
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            game_BusinessDb db = new game_BusinessDb();
+
+            int loggedUser = db.Users.First(a => a.Login == User.Identity.Name).ID;
+
+            var ub = new UserBuildings()
+            {
+                User_ID = loggedUser,
+                X_pos = 2,
+                Y_pos = 2,
+                Lvl = 1,
+                Building_ID = 2
+            };
+
+            db.UserBuildings.Add(ub);
+            db.SaveChanges();
 
             return View();
+            //return db.UserBuildings.First(u => u.User_ID == loggedUser);
         }
+
 
         public ActionResult Contact()
         {

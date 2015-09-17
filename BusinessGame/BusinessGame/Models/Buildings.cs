@@ -8,6 +8,11 @@ namespace BusinessGame.Models
 
     public partial class Buildings
     {
+        public Buildings()
+        {
+            UserBuildings = new HashSet<UserBuildings>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
@@ -33,6 +38,6 @@ namespace BusinessGame.Models
 
         public virtual Products Products { get; set; }
 
-        public virtual UserBuildings UserBuildings { get; set; }
+        public virtual ICollection<UserBuildings> UserBuildings { get; set; }
     }
 }

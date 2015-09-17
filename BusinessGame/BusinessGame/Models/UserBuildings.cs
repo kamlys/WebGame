@@ -8,7 +8,7 @@ namespace BusinessGame.Models
 
     public partial class UserBuildings
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public int ID { get; set; }
 
         public int User_ID { get; set; }

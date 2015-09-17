@@ -24,31 +24,85 @@ namespace BusinessGame.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Buildings>()
-                .HasOptional(e => e.UserBuildings)
-                .WithRequired(e => e.Buildings);
+               .HasMany(e => e.UserBuildings)
+               .WithRequired(e => e.Buildings)
+               .HasForeignKey(e => e.Building_ID)
+               .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Products>()
-                .HasOptional(e => e.Buildings)
-                .WithRequired(e => e.Products);
+                .HasMany(e => e.Buildings)
+                .WithRequired(e => e.Products)
+                .HasForeignKey(e => e.Product_ID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Products>()
-                .HasOptional(e => e.UserProducts)
-                .WithRequired(e => e.Products);
+                .HasMany(e => e.UserProducts)
+                .WithRequired(e => e.Products)
+                .HasForeignKey(e => e.Product_ID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Users>()
-                .HasOptional(e => e.Admins)
-                .WithRequired(e => e.Users);
+                .HasMany(e => e.Admins)
+                .WithRequired(e => e.Users)
+                .HasForeignKey(e => e.User_ID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Users>()
-                .HasOptional(e => e.Bans)
-                .WithRequired(e => e.Users);
+                .HasMany(e => e.Bans)
+                .WithRequired(e => e.Users)
+                .HasForeignKey(e => e.User_ID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Users>()
                 .HasMany(e => e.Maps)
                 .WithRequired(e => e.Users)
                 .HasForeignKey(e => e.User_ID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Users>()
+                .HasMany(e => e.UserBuildings)
+                .WithRequired(e => e.Users)
+                .HasForeignKey(e => e.User_ID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Users>()
+                .HasMany(e => e.UserProducts)
+                .WithRequired(e => e.Users)
+                .HasForeignKey(e => e.User_ID)
+                .WillCascadeOnDelete(false);
+
+
+
+
+
+
+            //modelBuilder.Entity<Buildings>()
+            //    .HasOptional(e => e.UserBuildings)
+            //    .WithRequired(e => e.Buildings);
+
+            //modelBuilder.Entity<Products>()
+            //    .HasOptional(e => e.Buildings)
+            //    .WithRequired(e => e.Products);
+
+            //modelBuilder.Entity<Products>()
+            //    .HasOptional(e => e.UserProducts)
+            //    .WithRequired(e => e.Products);
+
+            //modelBuilder.Entity<Users>()
+            //    .HasOptional(e => e.Admins)
+            //    .WithRequired(e => e.Users);
+
+            //modelBuilder.Entity<Users>()
+            //    .HasOptional(e => e.Bans)
+            //    .WithRequired(e => e.Users);
+
+            //modelBuilder.Entity<Users>()
+            //    .HasMany(e => e.Maps)
+            //    .WithRequired(e => e.Users)
+            //    .HasForeignKey(e => e.User_ID)
+            //    .WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<Users>()
             //    .HasMany(e => e.UserBuildings)
