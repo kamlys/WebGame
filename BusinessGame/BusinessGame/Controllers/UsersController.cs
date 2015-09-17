@@ -16,7 +16,6 @@ namespace BusinessGame.Controllers
         // GET: Users
         public ActionResult Register()
         {
-            // komentarz
             return View();
         }
 
