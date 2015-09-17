@@ -20,9 +20,9 @@ namespace BusinessGame.Models
         [StringLength(100)]
         public string Name { get; set; }
 
-        public int Price { get; set; }
+        public double Price { get; set; }
 
-        public int Percenth_price_per_lvl { get; set; }
+        public int Percent_price_per_lvl { get; set; }
 
         public int Width { get; set; }
 
@@ -30,7 +30,7 @@ namespace BusinessGame.Models
 
         public int Product_per_lvl { get; set; }
 
-        public int Dest_price { get; set; }
+        public double Dest_price { get; set; }
 
         public int Percent_product_per_lvl { get; set; }
 

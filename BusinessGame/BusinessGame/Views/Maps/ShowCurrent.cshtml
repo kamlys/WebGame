@@ -1,0 +1,35 @@
+﻿@model BusinessGame.Models.Maps
+
+
+<table>
+    @for (int i = 0; i < Model.Height; i++ )
+    {
+        <tr>
+            @for (int j = 0; j < Model.Width; j++)
+            {
+                foreach (var b in @ViewBag.Buildings)
+                {
+                    @b.x_left
+                    @b.x_right
+                    @b.y_top
+                    @b.y_bottom
+                    if (i >= b.x_left && i < b.x_right && j >= b.y_top && j < b.y_bottom)
+                    {
+                        <td id="@i-@j" style="height: 100px; width:100px; background-color:brown;">
+                            @b.name
+                        </td>
+                    }
+                    else
+                    {
+                        <td id="@i-@j" style="height: 100px; width:100px; background-color:green;">
+                            PUSTO
+                        </td>
+                    }
+                }
+
+
+            }
+        </tr>
+    }
+</table>
+
