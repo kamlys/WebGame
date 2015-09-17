@@ -76,8 +76,6 @@ namespace BusinessGame.Models
 
 
 
-
-
             //modelBuilder.Entity<Buildings>()
             //    .HasOptional(e => e.UserBuildings)
             //    .WithRequired(e => e.Buildings);
