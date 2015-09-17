@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -185,6 +186,12 @@
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\LogOff.cshtml" />
+    <Content Include="Views\Maps\Create.cshtml" />
+    <Content Include="Views\Maps\Delete.cshtml" />
+    <Content Include="Views\Maps\Details.cshtml" />
+    <Content Include="Views\Maps\Edit.cshtml" />
+    <Content Include="Views\Maps\Index.cshtml" />
+    <Content Include="Views\Maps\ShowCurrent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -210,7 +217,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49404</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

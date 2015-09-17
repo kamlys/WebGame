@@ -18,5 +18,6 @@ namespace BusinessGame.Models
         public int Width { get; set; }
 
         public virtual Users Users { get; set; }
+
     }
 }
