@@ -16,6 +16,7 @@ namespace BusinessGame.Controllers
         // GET: Users
         public ActionResult Register()
         {
+            //test
             return View();
         }
 
