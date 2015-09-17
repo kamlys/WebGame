@@ -8,11 +8,11 @@ namespace BusinessGame.Models
 
     public partial class Users
     {
-        //public Users()
-        //{
-        //    UserBuildings = new HashSet<UserBuildings>();
-        //    UserProducts = new HashSet<UserProducts>();
-        //}
+        public Users()
+        {
+            UserBuildings = new HashSet<UserBuildings>();
+            UserProducts = new HashSet<UserProducts>();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
