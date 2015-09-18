@@ -1,0 +1,90 @@
+﻿@model BusinessGame.Models.Buildings
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Buildings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Products.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Products.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Percent_price_per_lvl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Percent_price_per_lvl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Width)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Width)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_per_lvl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_per_lvl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dest_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dest_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Percent_product_per_lvl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Percent_product_per_lvl)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
