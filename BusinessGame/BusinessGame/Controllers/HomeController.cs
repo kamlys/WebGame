@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessGame.Models;
-using BusinessGame.ViewModels.BuildProduct;
+//using BusinessGame.ViewModels.BuildProduct;
 
 namespace BusinessGame.Controllers
 {
@@ -17,13 +17,13 @@ namespace BusinessGame.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
-                UserBuildingProduct UserProductBuilding = new UserBuildingProduct();
-                UserProductBuilding.UBuilding = new List<UserBuildings>();
+                //UserBuildingProduct UserProductBuilding = new UserBuildingProduct();
+               // UserProductBuilding.UBuilding = new List<UserBuildings>();
             //    UserProductBuilding.UProduct = new List<UserProducts>();
-                UserProductBuilding.UBuilding.AddRange(GetBuilding(uID));
+               // UserProductBuilding.UBuilding.AddRange(GetBuilding(uID));
             //    UserProductBuilding.UProduct.AddRange(GetProduct(uID));
             //    return View(UserProductBuilding);
-                return View(UserProductBuilding);
+              //  return View(UserProductBuilding);
             }
 
             return View();

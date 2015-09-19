@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessGame.Models;
 using System.Web.Security;
+using System.Web.Script.Serialization;
 
 namespace BusinessGame.Controllers
 {
@@ -51,6 +52,12 @@ namespace BusinessGame.Controllers
         {
             Users loggedUser = db.Users.First(a => a.Login == User.Identity.Name);
             return loggedUser.Maps.First();
+        }
+
+        public JsonResult FreeTiles()
+        {
+            var json = new JavaScriptSerializer().Serialize(new string[] {"1-2", "2-2", "3-1", "4-7"});
+            return Json(json);
         }
 
         public List<UserBuildings> GetUsersBuildings()
