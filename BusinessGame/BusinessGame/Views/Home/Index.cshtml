@@ -1,42 +1,27 @@
-﻿@model BusinessGame.ViewModels.BuildProduct.UserBuildingProduct
+﻿<script src="~/Scripts/ValueProductUpdate.js"></script>
+@model BusinessGame.ViewModels.BuildProduct.UserBuildingProduct
 @{
     ViewBag.Title = "Home Page";
 }
 
-<div class="row" ng-controller="ProductController">
+<div class="row">
     @if (User.Identity.IsAuthenticated)
     {
         <p><h2>Panel Użytkownika <b>@User.Identity.Name</b></h2></p>
 
         <h3>Moje surowce:</h3>
-        <script>
-            setInterval(function () {
-                $.ajax({
-                    url: '/Home/GetProduct',
-                    type: 'Post',
-                    dataType: 'Json',
-                    contentType: 'application/json; charset=utf-8',
-                    error: function () {
-                        alert('Error');
-                    },
-                    success: function () {
-                        alert('success');
-                    },
-                    async: true,
-                    processData: false
-                });
-            }, 10000);
-        </script>
-
-
+        <div id="products">
+            <div id="product_1"></div>
+            <div id="product_2"></div>
+        </div>
 
         <h3>Moje budynki: </h3>
-        foreach (var itemBuild in Model.UBuilding)
-        {
-            <ul>
-                <li>@itemBuild.Buildings.Name</li>
-            </ul>
-        }
+            foreach (var itemBuild in Model.UBuilding)
+            {
+                <ul>
+                    <li>@itemBuild.BuildingName</li>
+                </ul>
+            }
 
     }
 </div>

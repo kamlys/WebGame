@@ -10,6 +10,7 @@ namespace BusinessGame.Models
         public game_BusinessDb()
             : base("name=game_BusinessDb")
         {
+            //this.Configuration.ProxyCreationEnabled = false;  
         }
 
         public virtual DbSet<Admins> Admins { get; set; }
@@ -24,7 +25,6 @@ namespace BusinessGame.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Buildings>()
                .HasMany(e => e.UserBuildings)
                .WithRequired(e => e.Buildings)
