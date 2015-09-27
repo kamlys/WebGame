@@ -33,8 +33,7 @@ namespace BusinessGame.Controllers
                         Login = model.Login,
                         Email = model.Email,
                         Password = Crypto.HashPassword(model.Password),
-                        Registration_Date = DateTime.Now,
-                        Last_log = DateTime.Now
+                        Registration_Date = DateTime.Now
                     };
 
                     
@@ -105,6 +104,10 @@ namespace BusinessGame.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
+
+            db.Users.First(u => u.Login == User.Identity.Name).Last_log = DateTime.Now;
+
+            db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
