@@ -46,6 +46,7 @@ namespace BusinessGame.Controllers
 
         public JsonResult GetProduct()
         {
+            UpdateUserProduct();
             IList<UserProducts> UserProduct = new List<UserProducts>();
 
             int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
@@ -58,53 +59,28 @@ namespace BusinessGame.Controllers
                 listProduct.Add(new U_Product { Product_ID = item.Product_ID, ProductName = item.Product_Name, Value = item.Value });
             }
 
-
             return Json(listProduct, JsonRequestBehavior.AllowGet);
         }
-
 
         public void UpdateUserProduct()
         {
             int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
 
-            var dateSubstract = DateTime.Now.Subtract(db.Users.First(u => u.ID == uID).Last_log).TotalSeconds;
+            var dateSubstract = DateTime.Now.Subtract(db.UserProducts.First(u => u.User_ID == uID).Last_Update).TotalSeconds;
 
-            if (User.Identity.IsAuthenticated && dateSubstract < 11)
+            foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
             {
-                foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
-                {
-                    int pID = item.Product_ID;
+                int pID = item.Product_ID;
 
-                    int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_lvl;
-                    int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
-                    int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
+                int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_sec;
+                int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
+                int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
 
-                    item.Value += (int)Math.Round(Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl);
-
-
-                }
-                db.Users.First(u => u.ID == uID).Last_log = DateTime.Now;
-                db.SaveChanges();
+                item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * dateSubstract);
             }
-            else if (dateSubstract > 15)
-            {
-                foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
-                {
-                    int pID = item.Product_ID;
-
-                    int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_lvl;
-                    int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
-                    int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
-
-                    item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * (dateSubstract / 10));
-                }
-                db.SaveChanges();
-            }
-
+            db.UserProducts.First(u => u.User_ID == uID).Last_Update = DateTime.Now;
+            db.SaveChanges();
         }
-
-
-
 
         public ActionResult About()
         {
@@ -126,7 +102,6 @@ namespace BusinessGame.Controllers
 
             return View();
         }
-
 
         public ActionResult Contact()
         {

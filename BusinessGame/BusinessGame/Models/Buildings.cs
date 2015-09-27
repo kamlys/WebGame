@@ -28,7 +28,7 @@ namespace BusinessGame.Models
 
         public int Height { get; set; }
 
-        public int Product_per_lvl { get; set; }
+        public int Product_per_sec { get; set; }
 
         public double Dest_price { get; set; }
 

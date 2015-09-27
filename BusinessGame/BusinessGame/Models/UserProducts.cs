@@ -21,6 +21,8 @@ namespace BusinessGame.Models
 
         public int Product_ID { get; set; }
 
+        public DateTime Last_Update { get; set; }
+
         public virtual Products Products { get; set; }
 
         public virtual Users Users { get; set; }
