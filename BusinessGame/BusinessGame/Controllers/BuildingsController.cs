@@ -18,6 +18,7 @@ namespace BusinessGame.Controllers
         // GET: Buildings
         public ActionResult Index()
         {
+            //asd
             var buildings = db.Buildings.Include(b => b.Products);
             return View(buildings.ToList());
         }
