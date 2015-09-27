@@ -22,8 +22,11 @@ namespace BusinessGame.Controllers
             {
                 int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
                 UserBuildingProduct UserProductBuilding = new UserBuildingProduct();
-                UserProductBuilding.UBuilding = new List<U_Building>();
+                UserProductBuilding.UBuilding = new List<UserBuildings>();
+            //    UserProductBuilding.UProduct = new List<UserProducts>();
                 UserProductBuilding.UBuilding.AddRange(GetBuilding(uID));
+            //    UserProductBuilding.UProduct.AddRange(GetProduct(uID));
+            //    return View(UserProductBuilding);
                 return View(UserProductBuilding);
             }
 
@@ -37,7 +40,7 @@ namespace BusinessGame.Controllers
                 BuildingLvl = u.Lvl,
                 BuildingName = u.Buildings.Name,
                 User_ID = u.User_ID}).ToList();
-
+           
             return builds;
         }
 
@@ -46,7 +49,7 @@ namespace BusinessGame.Controllers
             IList<UserProducts> UserProduct = new List<UserProducts>();
 
             int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
-          
+
             IList<U_Product> listProduct = new List<U_Product>();
             var products = db.UserProducts.Where(u => u.User_ID == uID);
 
@@ -78,7 +81,7 @@ namespace BusinessGame.Controllers
 
                     item.Value += (int)Math.Round(Product_per_lvl * (Percet_per_lvl * 0.01)*BuildLvl);
 
-                    
+
                 }
                 db.Users.First(u => u.ID == uID).Last_log = DateTime.Now;
                 db.SaveChanges();
@@ -86,7 +89,7 @@ namespace BusinessGame.Controllers
             else if (dateSubstract > 15)
             {
                 foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
-                {
+            {
                     int pID = item.Product_ID;
 
                     int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_lvl;
@@ -97,7 +100,7 @@ namespace BusinessGame.Controllers
                 } 
                 db.SaveChanges();
             }
-           
+
         }
 
 

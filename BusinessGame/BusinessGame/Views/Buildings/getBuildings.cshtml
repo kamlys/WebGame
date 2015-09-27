@@ -1,38 +1,43 @@
 ﻿@model IEnumerable<BusinessGame.Models.Buildings>
-<div class="row">
-    <div class="col-md-3" id="dvSource">
+<br />
+<div >
+    <div style="float:left" id="dvSource">
         @foreach (var m in @Model)
         {
-            <p style="z-index:1; color:white; padding:10px; display:block; background-color:brown; text-align:center; padding-top:25px; width:50px; height:50px; border:1px solid black">
+            <div style="z-index:1; color:white; padding:10px; display:block; background-color:brown; text-align:center; padding-top:25px; width:64px; height:64px; border:1px solid black">
             @foreach (var a in @m.Name.Split('_'))
             {
-                @a[0]
+               // @a[0]
             }
                
-            </p>
+            </div>
         }
     </div>
-    <div class="col-md-9">
-        <table style="z-index: 1000">
+    <div style="float:left">
+        <div id="map" style="z-index: 1000">
         @for (int i = 0; i < 10; i++)
         {
-            <tr>
+            <div>
                 @for (int j = 0; j < 10; j++)
                 {
                     if (j == 4 && i == 3 || i == 2 && j == 7)
                     {
-                        <td id="@i-@j" style="background-color:green; width:60px; height:60px; border:4px solid black" class="target free"></td>
+                        <div id="@j-@i" data-free="1" style="float:left; background-image:url(http://img06.deviantart.net/fd7d/i/2005/269/e/9/a_grass_tile_by_viperxmns.jpg); background-color:green; width:64px; height:64px;"  class="target free"></div>
                     }
                     else
                     {
-                        <td id="@i-@j"  style="background-color:gray; width:60px; height:60px; border:4px solid black" class="target"></td>
+                        <div id="@j-@i" data-free="0" style="float:left; background-image:url(http://i.imgur.com/CdWk0P6.png); background-color:gray; width:64px; height:64px;" class="target"></div>
                     }
                 }
-            </tr>
+            </div>
+            <br style="clear:both" />
         }
-    </table>
+    </div>
     </div>
 </div>
+<br style="clear:both" />
+
+
 
 @section Scripts {
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -44,26 +49,75 @@
 <script type="text/javascript">
 
     $(init);
+    var wolne_pola_mapy;
 
     function init() {
-        $("#dvSource p").draggable({
+
+        $.ajax({
+            url: '/Maps/FreeTiles',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            error: function (xhr) {
+                $.colorbox({ html: 'Error: ' + xhr.statusText });
+            },
+            success: function (result) {
+                wolne_pola_mapy = result;
+                console.log(wolne_pola_mapy);
+            },
+            async: true,
+            processData: false
+        });
+
+        $("#dvSource div").draggable({
+            helper: "clone",
             revert: "invalid",
             refreshPositions: true,
             drag: function (event, ui) {
+                var kol = parseInt((ui.offset.left - $("#map").offset().left) / 64);
+                var wier = parseInt((ui.offset.top - $("#map").offset().top) / 64);
+
                 ui.helper.addClass("draggable");
             }
         });
-        $(".target.free").droppable({
-            tolerance: 'fit',
+
+        $("#map").droppable({
             drop: function (event, ui) {
-                $(this).append(ui.draggable.css('position', 'static'))
-                submitAjax(event.target.id);
+                var kol = parseInt((ui.offset.left - $("#map").offset().left) / 64);
+                var wier = parseInt((ui.offset.top - $("#map").offset().top) / 64);
+                
+                obj = JSON.parse(wolne_pola_mapy);
+                for (var i = 0; i < obj.length; i++) {
+                    if (obj[i] == (kol + '-' + wier))
+                    {
+                        submitAjax(obj[i]);
+                    }
+                    else
+                    {
+                        ui.draggable.draggable('option', 'revert', true);
+                    }
+                }
+            },
+            over: function (event, ui) {
+                $("#dvSource div").draggable({
+                    grid: [64, 64],
+                }
+                );
+            },
+            out: function (event, ui) {
+                $("#dvSource div").draggable("option", "grid", false);
+            }, stop: function () {
+                $(this).draggable('option', 'revert', 'invalid');
             }
         });
     }
 
     function submitAjax(location) {
         $.colorbox({ html: "Stawianie budynku na pozycji" + location });
+        console.log(location);
+        $("#" + location).css('background-image', 'none');
+        $("#" + location).css('background-color', 'blue');
+        return false;
         $.ajax({
             url: '/Buildings/CreateUserBuilding',
             type: 'POST',
@@ -80,8 +134,8 @@
             async: true,
             processData: false
         });
+        return true;
     }
-
 </script>
 }
 
