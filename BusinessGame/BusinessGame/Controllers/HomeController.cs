@@ -22,11 +22,8 @@ namespace BusinessGame.Controllers
             {
                 int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
                 UserBuildingProduct UserProductBuilding = new UserBuildingProduct();
-                UserProductBuilding.UBuilding = new List<UserBuildings>();
-            //    UserProductBuilding.UProduct = new List<UserProducts>();
+                UserProductBuilding.UBuilding = new List<U_Building>();
                 UserProductBuilding.UBuilding.AddRange(GetBuilding(uID));
-            //    UserProductBuilding.UProduct.AddRange(GetProduct(uID));
-            //    return View(UserProductBuilding);
                 return View(UserProductBuilding);
             }
 
@@ -36,11 +33,14 @@ namespace BusinessGame.Controllers
 
         public List<U_Building> GetBuilding(int uID)
         {
-            var builds = db.UserBuildings.Where(u => u.User_ID == uID).Select(u=> new U_Building{Buidling_ID = u.Building_ID, 
+            var builds = db.UserBuildings.Where(u => u.User_ID == uID).Select(u => new U_Building
+            {
+                Buidling_ID = u.Building_ID,
                 BuildingLvl = u.Lvl,
                 BuildingName = u.Buildings.Name,
-                User_ID = u.User_ID}).ToList();
-           
+                User_ID = u.User_ID
+            }).ToList();
+
             return builds;
         }
 
@@ -55,7 +55,7 @@ namespace BusinessGame.Controllers
 
             foreach (var item in products)
             {
-                listProduct.Add(new U_Product{Product_ID = item.Product_ID, ProductName = item.Product_Name, Value= item.Value});
+                listProduct.Add(new U_Product { Product_ID = item.Product_ID, ProductName = item.Product_Name, Value = item.Value });
             }
 
 
@@ -79,7 +79,7 @@ namespace BusinessGame.Controllers
                     int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
                     int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
 
-                    item.Value += (int)Math.Round(Product_per_lvl * (Percet_per_lvl * 0.01)*BuildLvl);
+                    item.Value += (int)Math.Round(Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl);
 
 
                 }
@@ -89,15 +89,15 @@ namespace BusinessGame.Controllers
             else if (dateSubstract > 15)
             {
                 foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
-            {
+                {
                     int pID = item.Product_ID;
 
                     int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_lvl;
                     int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
                     int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
 
-                    item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl)*(dateSubstract/10));
-                } 
+                    item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * (dateSubstract / 10));
+                }
                 db.SaveChanges();
             }
 
