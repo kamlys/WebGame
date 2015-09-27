@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessGame.ViewModels.User
 {
@@ -28,6 +29,7 @@ namespace BusinessGame.ViewModels.User
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public DateTime Registration_Date { get; set; }
+        [Column(TypeName="datetime2")]
+        public DateTime? Registration_Date { get; set; }
     }
 }

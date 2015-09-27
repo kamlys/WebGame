@@ -32,9 +32,14 @@ namespace BusinessGame.Models
         [StringLength(300)]
         public string Email { get; set; }
 
+        [Column(TypeName = "datetime2")]
         public DateTime Last_log { get; set; }
 
-        public DateTime Registration_Date { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime? Registration_Date { get; set; }
+        
+        [Column(TypeName = "datetime2")]
+        public DateTime? Last_Update { get; set; }
 
         public virtual ICollection<Admins> Admins { get; set; }
 

@@ -46,10 +46,11 @@ namespace BusinessGame.Controllers
 
         public JsonResult GetProduct()
         {
+            int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
+
             UpdateUserProduct();
             IList<UserProducts> UserProduct = new List<UserProducts>();
 
-            int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
 
             IList<U_Product> listProduct = new List<U_Product>();
             var products = db.UserProducts.Where(u => u.User_ID == uID);
@@ -66,7 +67,12 @@ namespace BusinessGame.Controllers
         {
             int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
 
-            var dateSubstract = DateTime.Now.Subtract(db.UserProducts.First(u => u.User_ID == uID).Last_Update).TotalSeconds;
+            if(db.Users.First(u => u.ID == uID).Last_Update == null)
+            {
+                db.Users.First(u => u.ID == uID).Last_Update = db.Users.First(u => u.ID == uID).Registration_Date;
+            }
+
+            var dateSubstract = DateTime.Now.Subtract((DateTime)(db.Users.First(u => u.ID == uID).Last_Update)).TotalSeconds;
 
             foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
             {
@@ -78,7 +84,7 @@ namespace BusinessGame.Controllers
 
                 item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * dateSubstract);
             }
-            db.UserProducts.First(u => u.User_ID == uID).Last_Update = DateTime.Now;
+            db.Users.First(u => u.ID == uID).Last_Update = DateTime.Now;
             db.SaveChanges();
         }
 
