@@ -1,11 +1,11 @@
-﻿@model IEnumerable<BusinessGame.Models.Buildings>
+﻿@model BusinessGame.ViewModels.BuildProduct.UserBuildingProduct
 <br />
 <div >
     <div style="float:left" id="dvSource">
-        @foreach (var m in @Model)
+        @foreach (var m in @Model.UBuilding)
         {
             <div style="z-index:1; color:white; padding:10px; display:block; background-color:brown; text-align:center; padding-top:25px; width:64px; height:64px; border:1px solid black">
-            @foreach (var a in @m.Name.Split('_'))
+            @foreach (var a in @m.BuildingName)
             {
                // @a[0]
             }
@@ -36,109 +36,3 @@
     </div>
 </div>
 <br style="clear:both" />
-
-
-
-@section Scripts {
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.24/jquery-ui.min.js" type="text/javascript"></script>
-<link href="http://code.jquery.com/ui/1.8.24/themes/blitzer/jquery-ui.css" rel="stylesheet"
-      type="text/css" />
-<script src="@Url.Content("~/Scripts/colorbox/jquery.colorbox.js")"></script>
-
-<script type="text/javascript">
-
-    $(init);
-    var wolne_pola_mapy;
-
-    function init() {
-
-        $.ajax({
-            url: '/Maps/FreeTiles',
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            error: function (xhr) {
-                $.colorbox({ html: 'Error: ' + xhr.statusText });
-            },
-            success: function (result) {
-                wolne_pola_mapy = result;
-                console.log(wolne_pola_mapy);
-            },
-            async: true,
-            processData: false
-        });
-
-        $("#dvSource div").draggable({
-            helper: "clone",
-            revert: "invalid",
-            refreshPositions: true,
-            drag: function (event, ui) {
-                var kol = parseInt((ui.offset.left - $("#map").offset().left) / 64);
-                var wier = parseInt((ui.offset.top - $("#map").offset().top) / 64);
-
-                ui.helper.addClass("draggable");
-            }
-        });
-
-        $("#map").droppable({
-            drop: function (event, ui) {
-                var kol = parseInt((ui.offset.left - $("#map").offset().left) / 64);
-                var wier = parseInt((ui.offset.top - $("#map").offset().top) / 64);
-                
-                obj = JSON.parse(wolne_pola_mapy);
-                for (var i = 0; i < obj.length; i++) {
-                    if (obj[i] == (kol + '-' + wier))
-                    {
-                        submitAjax(obj[i]);
-                    }
-                    else
-                    {
-                        ui.draggable.draggable('option', 'revert', true);
-                    }
-                }
-            },
-            over: function (event, ui) {
-                $("#dvSource div").draggable({
-                    grid: [64, 64],
-                }
-                );
-            },
-            out: function (event, ui) {
-                $("#dvSource div").draggable("option", "grid", false);
-            }, stop: function () {
-                $(this).draggable('option', 'revert', 'invalid');
-            }
-        });
-    }
-
-    function submitAjax(location) {
-        $.colorbox({ html: "Stawianie budynku na pozycji" + location });
-        console.log(location);
-        $("#" + location).css('background-image', 'none');
-        $("#" + location).css('background-color', 'blue');
-        return false;
-        $.ajax({
-            url: '/Buildings/CreateUserBuilding',
-            type: 'POST',
-            data: JSON.stringify(location),
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            error: function (xhr) {
-                $.colorbox({ html: 'Error: ' + xhr.statusText });
-            },
-            success: function (result) {
-                $.colorbox({ html: result });
-                $(location).removeClass('free');
-            },
-            async: true,
-            processData: false
-        });
-        return true;
-    }
-</script>
-}
-
-@section css {
-    <link href="@Url.Content("~/Content/colorbox/colorbox.css")" rel="stylesheet" type="text/css" />
-}

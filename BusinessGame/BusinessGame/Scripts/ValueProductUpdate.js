@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    setInterval(showProducts, 10000);
-    showProducts();
+    //setInterval(showProducts, 10000);
+   // showProducts();
 });
 
 function showProducts() {
