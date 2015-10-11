@@ -24,6 +24,7 @@ namespace BusinessGame.Controllers
                 UserBuildingProduct UserProductBuilding = new UserBuildingProduct();
                 UserProductBuilding.UBuilding = new List<U_Building>();
                 UserProductBuilding.UBuilding.AddRange(GetBuilding(uID));
+                UserProductBuilding.UMap = db.Maps.FirstOrDefault(a => a.User_ID == uID);
                 return View(UserProductBuilding);
             }
 
@@ -38,7 +39,11 @@ namespace BusinessGame.Controllers
                 Buidling_ID = u.Building_ID,
                 BuildingLvl = u.Lvl,
                 BuildingName = u.Buildings.Name,
-                User_ID = u.User_ID
+                User_ID = u.User_ID,
+                x_left = u.X_pos,
+                y_top = u.Y_pos,
+                x_right = u.X_pos + db.Buildings.FirstOrDefault(a => a.ID == u.Building_ID).Width,
+                y_bottom = u.Y_pos + db.Buildings.FirstOrDefault(a => a.ID == u.Building_ID).Height
             }).ToList();
 
             return builds;
