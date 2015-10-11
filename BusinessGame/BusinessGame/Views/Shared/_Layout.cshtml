@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
+            </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -29,7 +29,7 @@
                     else
                     {
                         <li>@Html.ActionLink("Wyloguj " + @User.Identity.Name, "LogOff", "Users")</li>
-                    }             
+                    }
                 </ul>
             </div>
         </div>
@@ -45,8 +45,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    @if(User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
     {
+
+        <script src="~/Scripts/AddProduct.js"></script>
         <script src="~/Scripts/ValueProductUpdate.js"></script>
     }
 </body>

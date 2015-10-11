@@ -44,37 +44,42 @@ namespace BusinessGame.Controllers
             return builds;
         }
 
+        //public JsonResult GetProduct()
+        //{
+        //    int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
+
+        //    UpdateUserProduct();
+        //    IList<UserProducts> UserProduct = new List<UserProducts>();
+
+
+        //    IList<U_Product> listProduct = new List<U_Product>();
+        //    var products = db.UserProducts.Where(u => u.User_ID == uID);
+
+        //    foreach (var item in products)
+        //    {
+        //        listProduct.Add(new U_Product { Product_ID = item.Product_ID, ProductName = item.Product_Name, Value = item.Value });
+        //    }
+
+        //    return Json(listProduct, JsonRequestBehavior.AllowGet);
+        //}
+
         public JsonResult GetProduct()
         {
             int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
 
-            UpdateUserProduct();
             IList<UserProducts> UserProduct = new List<UserProducts>();
-
-
             IList<U_Product> listProduct = new List<U_Product>();
-            var products = db.UserProducts.Where(u => u.User_ID == uID);
 
-            foreach (var item in products)
-            {
-                listProduct.Add(new U_Product { Product_ID = item.Product_ID, ProductName = item.Product_Name, Value = item.Value });
-            }
-
-            return Json(listProduct, JsonRequestBehavior.AllowGet);
-        }
-
-        public void UpdateUserProduct()
-        {
-            int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
-
-            if(db.Users.First(u => u.ID == uID).Last_Update == null)
+            if (db.Users.First(u => u.ID == uID).Last_Update == null)
             {
                 db.Users.First(u => u.ID == uID).Last_Update = db.Users.First(u => u.ID == uID).Registration_Date;
             }
+            
+            var products = db.UserProducts.Where(u => u.User_ID == uID);
 
             var dateSubstract = DateTime.Now.Subtract((DateTime)(db.Users.First(u => u.ID == uID).Last_Update)).TotalSeconds;
 
-            foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
+            foreach (var item in products)
             {
                 int pID = item.Product_ID;
 
@@ -82,11 +87,44 @@ namespace BusinessGame.Controllers
                 int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
                 int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
 
-                item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * dateSubstract);
+
+                listProduct.Add(new U_Product { Product_ID = item.Product_ID, ProductName = item.Product_Name, Value = item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * dateSubstract) });
             }
             db.Users.First(u => u.ID == uID).Last_Update = DateTime.Now;
+
+            return Json(listProduct, JsonRequestBehavior.AllowGet);
+        }
+
+        public void UpdateUserProduct()
+        {
+            GetProduct();
             db.SaveChanges();
         }
+
+        //public void UpdateUserProduct()
+        //{
+        //    int uID = db.Users.First(u => u.Login == User.Identity.Name).ID;
+
+        //    if(db.Users.First(u => u.ID == uID).Last_Update == null)
+        //    {
+        //        db.Users.First(u => u.ID == uID).Last_Update = db.Users.First(u => u.ID == uID).Registration_Date;
+        //    }
+
+        //    var dateSubstract = DateTime.Now.Subtract((DateTime)(db.Users.First(u => u.ID == uID).Last_Update)).TotalSeconds;
+
+        //    foreach (var item in db.UserProducts.Where(u => u.User_ID == uID))
+        //    {
+        //        int pID = item.Product_ID;
+
+        //        int Product_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Product_per_sec;
+        //        int Percet_per_lvl = db.Buildings.First(p => p.Product_ID == pID).Percent_product_per_lvl;
+        //        int BuildLvl = db.UserBuildings.First(b => b.Buildings.Product_ID == pID).Lvl;
+
+        //        item.Value += (int)Math.Round((Product_per_lvl * (Percet_per_lvl * 0.01) * BuildLvl) * dateSubstract);
+        //    }
+        //    db.Users.First(u => u.ID == uID).Last_Update = DateTime.Now;
+        //    db.SaveChanges();
+        //}
 
         public ActionResult About()
         {
